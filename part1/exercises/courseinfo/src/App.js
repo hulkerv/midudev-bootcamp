@@ -1,11 +1,18 @@
-const Title = ({course}) => <h1>{course}</h1>;
+const Part = ({part}) => <p>{part}</p>;
 
-const Indice123 = (props)=>{
-    const {part, exercises} = props
-    return <p>{part} {exercises}</p>
+const Header = ({header}) => <h1>{header}</h1>;
+
+const Content = ({part1, part2, part3})=> {
+    return(
+        <div>
+            <Part part={part1}/>
+            <Part part={part2}/>
+            <Part part={part3}/>
+        </div>
+    )
 }
 
-const Indice4 = ({totalExercises}) => <p>Number of exercises {totalExercises}</p>;
+const Total = ({total}) => <p>Number of exercises {total}</p>;
 
 const App = () => {
   const course = 'Half Stack application development'
@@ -15,18 +22,17 @@ const App = () => {
   const exercises2 = 7
   const part3 = 'State of a component'
   const exercises3 = 14
-  const totalExercises = exercises1 + exercises2 + exercises3
+  const total = exercises1 + exercises2 + exercises3
   return (
     <div>
-      <Title course={course}/>
+      <Header header={course}/>
       
-      <Indice123 part={part1} exercises={exercises1}/>
+      <Content 
+            part1={part1 + ' ' + exercises1}
+            part2={part2 + ' ' + exercises2}
+            part3={part3 + ' ' + exercises3}/>
       
-      <Indice123 part={part2} exercises={exercises2}/>
-      
-      <Indice123 part={part3} exercises={exercises3}/>
-
-      <Indice4 totalExercises={totalExercises}/>
+      <Total total={total}/>
     </div>
   )
 }
