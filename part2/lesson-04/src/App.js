@@ -1,8 +1,8 @@
 import './index.css';
-import {useEffect, useState} from 'react'
-import {Note} from './Note'
-import {FilterButton} from './FilterButton'
-import {NewNoteForm} from './NewNoteForm'
+import {useEffect, useState} from 'react';
+import {Note} from './Note';
+import {NewNoteForm} from './NewNoteForm';
+import axios from 'axios';
 
 const App = () => {
 //	if(typeof notes === "undefined" || notes.length === 0){
@@ -14,31 +14,36 @@ const App = () => {
 	
 	useEffect(()=>{
 		console.log('useEffect');
-		setLoading(true);
-		setTimeout(()=>{
-			fetch('https://jsonplaceholder.typicode.com/posts')
-				.then(response => response.json())
-				.then(json => {
-					console.log('seteando las notas de la API');
-					setNotes(json);
+		console.log('ahora!');
+			axios
+				.get('https://jsonplaceholder.typicode.com/posts')
+				.then(response => {
+					const {data} = response
+					setNotes(data);
 					setLoading(false);
 			})
-		},2000)
+		
 	}, [])
 	
 	const handleChange = (event) => {
 		setNewNote(event.target.value);
 	}
 	
-	
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		const noteToAddToState = {
-			id: notes.length + 1,
 			title: newNote,
 			body: newNote,
-		}
-		setNotes(notes.concat(noteToAddToState));
+			userId: 1
+		};
+		
+		axios
+			.post('https://jsonplaceholder.typicode.com/posts', noteToAddToState)
+			.then((response) => {
+				const {data} = response;
+				setNotes((prevNotes) => prevNotes.concat(data));
+		});
+	
 		setNewNote('');
 	}
 	
