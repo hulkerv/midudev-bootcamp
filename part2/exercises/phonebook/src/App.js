@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import {Filter} from './Filter';
+import {PersonForm} from './PersonForm';
+import {Persons} from './Persons';
 
 const App = () => {
 	
@@ -50,33 +53,38 @@ const App = () => {
 		setFindName(e.target.value);
 	}
 	
-	const filterValue = persons.filter((val) =>{
+	const filterValue = persons.filter((person) =>{
+		
 		if(findName === ""){
-			return val
-		}else if(val.name.toLowerCase().includes(findName.toLowerCase())){
-			return val
+			console.log(person);
+			return person
+		}else if(person.name.toLowerCase().includes(findName.toLowerCase())){
+			return person
 		};
+		return null
 	});
-	console.log(filterValue);
+	
 	
   return (
     <div>
       <h2>Phonebook</h2>
-      <p><label htmlFor="filter">filter shown with</label><input onChange={handleFilter} id="filter" type="text" placeholder="Search..." value={findName}/></p>
+      	<div>
+      		<Filter handleFilter={handleFilter} findName={findName}/>
+      	</div>
       <h2>Add a new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input id="name" onChange={handleChange.name} type="text" placeholder="Add Name..." value={newName}/>
-          <input id="number" onChange={handleChange.number} type="number" placeholder="Add Number..." value={newNumber}/>
-        </div>
-        <div>
-          <button>add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
       <div>
-      	{filterValue.map((person)=><p key={person.number}>{person.name} - {person.number}</p>)}
+      	<PersonForm handleSubmit={handleSubmit} handleChange={handleChange} newName={newName} newNumber={newNumber}/>
       </div>
+      <h2>Numbers</h2>
+	  <table>
+	  	<tbody>
+	  		<tr>
+      			<td><strong>Name</strong></td>
+      			<td><strong>  Number</strong></td>
+      		</tr>
+      		{filterValue.map(person => <Persons key={person.number} person={person}/>)}
+	  	</tbody>
+	  </table>
     </div>
   )
 
