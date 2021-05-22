@@ -2,8 +2,7 @@ import './index.css';
 import {useEffect, useState} from 'react';
 import {Note} from './Note';
 import {NewNoteForm} from './NewNoteForm';
-import {getAllNotes} from './services/notes/getAllNotes';
-import {createNote} from './services/notes/createNote';
+import {getAllNotes as get, createNote as create} from './services/notes/';
 
 const App = () => {
 //	if(typeof notes === "undefined" || notes.length === 0){
@@ -16,7 +15,7 @@ const App = () => {
 	useEffect(()=>{
 		console.log('useEffect');
 		setLoading(true);
-		getAllNotes().then((notes) => {
+		get().then((notes) => {
 			setNotes(notes);
 			setLoading(false);
 		});
@@ -33,7 +32,7 @@ const App = () => {
 			body: newNote,
 			userId: 1
 		};
-		createNote(noteToAddToState).then((newNote) =>{
+		create(noteToAddToState).then((newNote) =>{
 			setNotes((prevNotes) => prevNotes.concat(newNote));
 		})
 		setNewNote('');
