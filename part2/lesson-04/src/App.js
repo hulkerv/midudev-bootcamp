@@ -2,7 +2,8 @@ import './index.css';
 import {useEffect, useState} from 'react';
 import {Note} from './Note';
 import {NewNoteForm} from './NewNoteForm';
-import axios from 'axios';
+import {getAllNotes} from './services/notes/getAllNotes';
+import {createNote} from './services/notes/createNote';
 
 const App = () => {
 //	if(typeof notes === "undefined" || notes.length === 0){
@@ -14,15 +15,11 @@ const App = () => {
 	
 	useEffect(()=>{
 		console.log('useEffect');
-		console.log('ahora!');
-			axios
-				.get('https://jsonplaceholder.typicode.com/posts')
-				.then(response => {
-					const {data} = response
-					setNotes(data);
-					setLoading(false);
-			})
-		
+		setLoading(true);
+		getAllNotes().then((notes) => {
+			setNotes(notes);
+			setLoading(false);
+		});
 	}, [])
 	
 	const handleChange = (event) => {
@@ -36,14 +33,9 @@ const App = () => {
 			body: newNote,
 			userId: 1
 		};
-		
-		axios
-			.post('https://jsonplaceholder.typicode.com/posts', noteToAddToState)
-			.then((response) => {
-				const {data} = response;
-				setNotes((prevNotes) => prevNotes.concat(data));
-		});
-	
+		createNote(noteToAddToState).then((newNote) =>{
+			setNotes((prevNotes) => prevNotes.concat(newNote));
+		})
 		setNewNote('');
 	}
 	

@@ -54,16 +54,13 @@ const App = () => {
 	}
 	
 	const filterValue = persons.filter((person) =>{
-		
 		if(findName === ""){
-			console.log(person);
 			return person
 		}else if(person.name.toLowerCase().includes(findName.toLowerCase())){
 			return person
 		};
 		return null
 	});
-	
 	
   return (
     <div>
@@ -87,7 +84,6 @@ const App = () => {
 	  </table>
     </div>
   )
-
 }
 
 export default App
