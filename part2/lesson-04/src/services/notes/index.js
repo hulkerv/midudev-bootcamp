@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const getAllNotes = () => {
+
 	return (
 		axios
 			.get('https://jsonplaceholder.typicode.com/posts')
@@ -12,6 +13,7 @@ export const getAllNotes = () => {
 }
 
 export const createNote = ({title, body, userId}) => {
+	return Promise.reject('something bad happened');
 	return(
 		axios
 			.post('https://jsonplaceholder.typicode.com/posts', {title, body, userId})

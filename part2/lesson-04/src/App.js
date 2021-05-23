@@ -2,7 +2,7 @@ import './index.css';
 import {useEffect, useState} from 'react';
 import {Note} from './Note';
 import {NewNoteForm} from './NewNoteForm';
-import {getAllNotes as get, createNote as create} from './services/notes/';
+import {getAllNotes as getAll, createNote as create} from './services/notes/';
 
 const App = () => {
 //	if(typeof notes === "undefined" || notes.length === 0){
@@ -11,11 +11,12 @@ const App = () => {
 	const [notes, setNotes] = useState([]);
 	const [newNote, setNewNote] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
 	
 	useEffect(()=>{
 		console.log('useEffect');
 		setLoading(true);
-		get().then((notes) => {
+		getAll().then((notes) => {
 			setNotes(notes);
 			setLoading(false);
 		});
@@ -32,8 +33,15 @@ const App = () => {
 			body: newNote,
 			userId: 1
 		};
-		create(noteToAddToState).then((newNote) =>{
+		setError('');
+		
+		create(noteToAddToState)
+			.then((newNote) =>{
 			setNotes((prevNotes) => prevNotes.concat(newNote));
+		})
+		.catch((error) => {
+			console.error(error);
+			setError('La API se desmadro');
 		})
 		setNewNote('');
 	}
@@ -48,6 +56,7 @@ const App = () => {
 				))}	  
     		</ol>
     		<NewNoteForm submit={handleSubmit} targetValue={handleChange} newNoteContent={newNote} />
+			{error ? <span style={{color: 'red'}}>{error}</span> : ""}
 		</div>
   	);
 }
