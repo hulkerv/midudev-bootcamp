@@ -1,4 +1,4 @@
-export const Countries = ({countries})=>{
+export const Countries = ({countries,click})=>{
 		if(countries.length > 10){
 			
 				return <h2>To many matches to filter, specify another filter.</h2>
@@ -9,7 +9,10 @@ export const Countries = ({countries})=>{
 					<div>
 						{countries.map((country)=>{
 							return(
-								<p key={country.name}>{country.name}</p>
+								<div key={country.name}>
+									<br/><span>{country.name} </span><button value={country.name} onClick={click}>Show</button><br/>
+								</div>
+								
 							)
 						})}
 					</div>

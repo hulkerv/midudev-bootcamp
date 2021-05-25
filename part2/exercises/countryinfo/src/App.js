@@ -15,12 +15,17 @@ const App = () => {
 			.then((country) => {setCountries(country)})
 	}, [searchCountry]);	
 	
+	const handleClick = (e) =>{
+		setSearchCountry(e.target.value)
+	} 
+		
+	
   return (
     <div>
      	<div>
      		<label htmlFor="search">Find countries </label><input id="search" onChange={handleChange} type="text" value={searchCountry}/>
      	</div>
-     	<Countries countries={countries}/>
+     	<Countries countries={countries} click={handleClick}/>
     </div>
   )
 }
