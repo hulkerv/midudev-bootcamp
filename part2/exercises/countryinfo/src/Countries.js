@@ -1,4 +1,4 @@
-export const Countries = ({countries,click})=>{
+export const Countries = ({countries, click, weather})=>{
 		if(countries.length > 10){
 			
 				return <h2>To many matches to filter, specify another filter.</h2>
@@ -26,12 +26,13 @@ export const Countries = ({countries,click})=>{
 						<p><strong>Capital:</strong> {countries[0].capital}</p>
 						<p><strong>Population: </strong> {countries[0].population}</p>
 						<h2>Languages</h2>
-						<div>
+						<ul>
 							{countries[0].languages.map((language) => {
 								return <li key={language.name}>{language.name}</li>
 							})}
-						</div>
-						<div><img src={countries[0].flag} alt={`${countries[0].name}'s flag`} with="60" height="50"/></div>
+						</ul>
+						<img src={countries[0].flag} alt={`${countries[0].name}'s flag`} with="60" height="50"/>
+						
 					</div>	
 				)
 				
@@ -42,4 +43,7 @@ export const Countries = ({countries,click})=>{
 		}	
 		
 			
-		
+//<h2>Weather in {weather.location.name}</h2>
+//						<p><strong>Temperature: </strong>{weather.current.temperature}°C</p>
+//						<img src={weather.current.weather_icons} alt={weather.current.weather_descriptions[0]}/>
+//						<p><strong>Wind: </strong>{weather.current.wind_speed} direction {weather.current.wind_dir}</p>	
