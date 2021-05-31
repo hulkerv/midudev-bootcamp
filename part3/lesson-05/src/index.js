@@ -1,9 +1,12 @@
-const express = require('express');
-const app = express();
+const express = require('express')
+const cors = require('cors')
+const app = express()
 
-app.use(express.json());
+const logger = require('./loggerMiddleware')
 
+app.use(express.json())
 
+app.use(logger)
 
 let notes = [
 	{
@@ -33,7 +36,7 @@ let notes = [
 
 app.get('/', ((req,res) => {
 	res.send('<h1>Hello World</h1>')
-}));
+}))
 
 app.get('/api/notes', (req,res) => {
 	res.json(notes)
@@ -41,7 +44,7 @@ app.get('/api/notes', (req,res) => {
 
 app.get('/api/notes/:id', (req,res) => {
 	const id =Number(req.params.id)
-	const note = notes.find(note=>note.id === id);
+	const note = notes.find(note=>note.id === id)
 	if (note){
 		res.json(note)
 	}else{
@@ -51,12 +54,12 @@ app.get('/api/notes/:id', (req,res) => {
 
 app.delete('/api/notes/:id', (req,res) => {
 	const id =Number(req.params.id)
-	notes = notes.filter(note => note.id !== id);
+	notes = notes.filter(note => note.id !== id)
 	res.status(204).end()
 })
 
 app.post('/api/notes', (req,res) => {
-	const note = req.body;
+	const note = req.body
 	
 	if(!note || !note.content){
 		return res.status(400).json({
@@ -64,7 +67,7 @@ app.post('/api/notes', (req,res) => {
 		})
 	}
 	
-	const ids= notes.map(note => note.id);
+	const ids= notes.map(note => note.id)
 	const maxId = Math.max(...ids)
 	
 	const newNote = {
@@ -77,6 +80,13 @@ app.post('/api/notes', (req,res) => {
 	notes = [...notes, newNote]
 	
 	res.status(201).json(newNote)
+})
+
+app.use((req, res)=>{
+	console.log(req.path)
+	res.status(404).json({
+		error: 'Not found'
+	})
 })
 
 const PORT = 3001
